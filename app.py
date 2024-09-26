@@ -11,9 +11,24 @@ form_template = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Remote Compiler</title>
+        <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+            font-size: 25px;
+        }
+    </style>
+
 </head>
 <body>
+    <!-- Button to navigate to the info page -->
+    <button onclick="window.location.href='/info';">Go to Info Page</button>
+    
     <h1>Enter Details to Compile Project</h1>
+
     <form method="POST" action="/execute">
         <label for="hostname">Remote Server Hostname:</label>
         <input type="text" id="hostname" name="hostname" value="lnxsrv07.seas.ucla.edu"><br><br>
@@ -35,6 +50,85 @@ form_template = """
 
         <button type="submit">Submit</button>
     </form>
+</body>
+</html>
+"""
+
+info_template = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Use</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            font-size: 25px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Button to navigate back to home page -->
+    <button onclick="window.location.href='/';">Go Back</button>
+<div>
+    <h3>How to Use the Remote C++ Compiler</h3>
+    <ul>
+        <li><strong>Step 1: Enter Your SSH Username</strong>
+            <ul>
+                <li>Start by entering your <strong>lnxsrv07</strong> (or other server) <strong>username</strong>.</li>
+            </ul>
+        </li>
+
+        <li><strong>Step 2: Enter Your SSH Password</strong>
+            <ul>
+                <li>Provide the <strong>password</strong> associated with your SSH username. This is required to authenticate and connect to the remote server.</li>
+            </ul>
+        </li>
+
+        <li><strong>Step 3: Enter Local Project Path</strong>
+            <ul>
+                <li>You must specify the full path to your project directory on your local machine.</li>
+                <li>For example, if your project directory is on your Desktop, run the <code>pwd</code> command in your terminal to get the full path. If you see something like <code>/Users/MyName/Desktop/my_project</code>, enter this path in the local path field.</li>
+            </ul>
+        </li>
+
+        <li><strong>Step 4: Enter Remote Directory Path</strong>
+            <ul>
+                <li>Enter the path on the remote server where you want to transfer your project. If you're unsure or don’t have a preference, press Enter to use the default directory (typically the home directory).</li>
+            </ul>
+        </li>
+
+        <li><strong>Step 5: Specify the C++ Files to Compile</strong>
+            <ul>
+                <li>Enter the names of the <strong>C++ source files</strong> you want to compile. These are your <code>.cpp</code> files. Do not include any header files (<code>.h</code>).</li>
+                <li>For example, if your project contains <code>hello.cpp</code> and <code>bye.cpp</code>, enter: <code>hello.cpp bye.cpp</code>.</li>
+            </ul>
+        </li>
+
+        <li><strong>Step 6: Select Remote Server (Optional)</strong>
+            <ul>
+                <li>By default, your project will be compiled on the <strong>lnxsrv07</strong> server. If you prefer to use a different server, you can change this by specifying the desired server's hostname.</li>
+                <li>If no changes are needed, leave the default option as is.</li>
+            </ul>
+        </li>
+
+        <li><strong>Step 7: Submit the Form</strong>
+            <ul>
+                <li>After filling out all the required fields, press the <strong>Submit</strong> button.</li>
+                <li>Once submitted, your files will be transferred to the remote server, compiled, and the output or errors will be displayed on the screen.</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<div>
+<h3> How this works </h3>
+</div>
 </body>
 </html>
 """
@@ -69,5 +163,8 @@ def execute():
     # Return the output as a response (for simplicity, you can extend this to handle output better)
     return f"<h1>Executed Compile Command:</h1><pre>{output}</pre>"
 
+@app.route('/info')
+def info():
+    return render_template_string(info_template)
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
