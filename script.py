@@ -151,33 +151,3 @@ class RemoteCompiler:
         
         return compile_command
 
-
-# # User input and execution
-# username = input("Enter your SSH username: ")
-# password = input("Enter your SSH password: ")
-# hostname = input("Enter the remote server hostname (press Enter to use lnxsrv07.seas.ucla.edu as default): ")
-# if not hostname:
-#     hostname = "lnxsrv07.seas.ucla.edu"
-
-# local_path = input("Enter the local project directory's full file path: ")
-# remote_path = input("Enter the remote directory where you'd like to save the file (press Enter to use default directory ~): ")
-# if not remote_path:
-#     remote_path = "~/"
-
-# remote_compiler = RemoteCompiler(hostname, username, password, local_path, remote_path)
-
-# # Get .cpp file names
-# file_list = remote_compiler.create_list_of_files()
-
-# # Transfer files to remote server
-# remote_compiler.transfer_files()
-
-# # Construct and execute the compile command on the remote server
-# compile_command = remote_compiler.construct_compile_command(file_list)
-# commands = [compile_command, "./exec"]
-# print(f"Compiled command: {compile_command}")
-
-# # Execute the commands on the remote server
-# remote_compiler.execute_ssh_command(commands)
-
-# #/Users/Shilpa2/Documents/prac_cpp

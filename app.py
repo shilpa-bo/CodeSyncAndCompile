@@ -133,6 +133,7 @@ info_template = """
 </html>
 """
 
+
 @app.route('/')
 def index():
     return render_template_string(form_template)
@@ -159,12 +160,40 @@ def execute():
     
     # Execute the commands on the remote server
     output = remote_compiler.execute_ssh_command(commands)
+    return render_template_string('''
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Command Output</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    padding: 20px;
+                }
+                pre {
+                    background-color: #333;
+                    color: #f4f4f4;
+                    padding: 10px;
+                    border-radius: 5px;
+                }
+            </style>
+        </head>
+        <body>                      
+            <!-- Button to navigate back to home page -->
+            <button onclick="window.location.href='/';">Go Back</button>
+            <h1>Executed Compile Command:</h1>
+            <pre>{{ output }}</pre>
+        </body>
+        </html>
+    ''', output=output)  # Pass the output variable to the template
 
-    # Return the output as a response (for simplicity, you can extend this to handle output better)
-    return f"<h1>Executed Compile Command:</h1><pre>{output}</pre>"
 
 @app.route('/info')
 def info():
     return render_template_string(info_template)
+
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
