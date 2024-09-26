@@ -87,6 +87,7 @@ class RemoteCompiler:
             cmd (list): A list of commands to execute on the remote server.
             port (int, optional): SSH port to connect to. Default is 22.
         """
+        all_output = ""
         client = None
         try:
             client = self.create_ssh_client()
@@ -99,9 +100,9 @@ class RemoteCompiler:
                 error = stderr.read().decode()
 
                 if output:
-                    print(f"Output:\n{output}")
+                    all_output += (f"Output:\n{output}\n")
                 if error:
-                    print(f"Error:\n{error}")
+                    all_output += (f"Error:\n{error}\n")
         except paramiko.AuthenticationException:
             print("Authentication failed, please verify your credentials.")
         except paramiko.SSHException as ssh_error:
@@ -111,6 +112,7 @@ class RemoteCompiler:
         finally:
             if client:
                 client.close()
+        return all_output
 
 
     def create_list_of_files(self):
@@ -150,32 +152,32 @@ class RemoteCompiler:
         return compile_command
 
 
-# User input and execution
-username = input("Enter your SSH username: ")
-password = input("Enter your SSH password: ")
-hostname = input("Enter the remote server hostname (press Enter to use lnxsrv07.seas.ucla.edu as default): ")
-if not hostname:
-    hostname = "lnxsrv07.seas.ucla.edu"
+# # User input and execution
+# username = input("Enter your SSH username: ")
+# password = input("Enter your SSH password: ")
+# hostname = input("Enter the remote server hostname (press Enter to use lnxsrv07.seas.ucla.edu as default): ")
+# if not hostname:
+#     hostname = "lnxsrv07.seas.ucla.edu"
 
-local_path = input("Enter the local project directory's full file path: ")
-remote_path = input("Enter the remote directory where you'd like to save the file (press Enter to use default directory ~): ")
-if not remote_path:
-    remote_path = "~/"
+# local_path = input("Enter the local project directory's full file path: ")
+# remote_path = input("Enter the remote directory where you'd like to save the file (press Enter to use default directory ~): ")
+# if not remote_path:
+#     remote_path = "~/"
 
-remote_compiler = RemoteCompiler(hostname, username, password, local_path, remote_path)
+# remote_compiler = RemoteCompiler(hostname, username, password, local_path, remote_path)
 
-# Get .cpp file names
-file_list = remote_compiler.create_list_of_files()
+# # Get .cpp file names
+# file_list = remote_compiler.create_list_of_files()
 
-# Transfer files to remote server
-remote_compiler.transfer_files()
+# # Transfer files to remote server
+# remote_compiler.transfer_files()
 
-# Construct and execute the compile command on the remote server
-compile_command = remote_compiler.construct_compile_command(file_list)
-commands = [compile_command, "./exec"]
-print(f"Compiled command: {compile_command}")
+# # Construct and execute the compile command on the remote server
+# compile_command = remote_compiler.construct_compile_command(file_list)
+# commands = [compile_command, "./exec"]
+# print(f"Compiled command: {compile_command}")
 
-# Execute the commands on the remote server
-remote_compiler.execute_ssh_command(commands)
+# # Execute the commands on the remote server
+# remote_compiler.execute_ssh_command(commands)
 
-#/Users/Shilpa2/Documents/prac_cpp
+# #/Users/Shilpa2/Documents/prac_cpp
