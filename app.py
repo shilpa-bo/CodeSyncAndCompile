@@ -13,7 +13,7 @@ form_template = """
     <title>Remote Compiler</title>
 </head>
 <body>
-    <h1>Remote Compiler Form</h1>
+    <h1>Enter Details to Compile Project</h1>
     <form method="POST" action="/execute">
         <label for="hostname">Remote Server Hostname:</label>
         <input type="text" id="hostname" name="hostname" value="lnxsrv07.seas.ucla.edu"><br><br>
