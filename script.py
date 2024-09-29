@@ -115,18 +115,6 @@ class RemoteCompiler:
         return all_output
 
 
-    def create_list_of_files(self):
-        """
-        Prompts the user to input .cpp file names and returns them as a list.
-
-        Returns:
-            list: A list of .cpp file names inputted by the user.
-        """
-        files = input("Enter .cpp file names that need to be compiled, separated by a space: ")
-        file_list = files.split()  # Split the input by spaces to create a list
-        return file_list
-
-
     def construct_compile_command(self, file_names):
         """
         Constructs the compile command to compile .cpp files on the remote server.
